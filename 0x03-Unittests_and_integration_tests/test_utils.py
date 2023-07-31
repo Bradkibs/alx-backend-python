@@ -49,9 +49,9 @@ class TestGetJson(unittest.TestCase):
 class TestMemoize(unittest.TestCase):
     """ Tests the memoized wrapper function"""
     def test_memoize(self):
-        "testing the memoized wrapper function if it memoizes values"
+        """testing the memoized wrapper function if it memoizes values"""
         class TestClass:
-
+            """A class used for testing memoization"""
             def a_method(self):
                 return 42
 
