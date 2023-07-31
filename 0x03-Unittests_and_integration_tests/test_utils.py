@@ -2,7 +2,7 @@
 """Unittest for access_nested_map function of utils module"""
 
 
-from utils import access_nested_map, get_json
+from utils import access_nested_map, get_json, memoize
 import unittest
 import requests
 from unittest.mock import MagicMock, patch
@@ -19,7 +19,6 @@ class TestAccessNestedMap(unittest.TestCase):
         ])
     def test_access_nested_map(self, nested_map, path, expected_result):
         self.assertEqual(access_nested_map(nested_map, path), expected_result)
-
 
     @parameterized.expand([
         ({}, ("a")),
@@ -47,3 +46,20 @@ class TestGetJson(unittest.TestCase):
         self.assertEqual(result, test_payload)
 
 
+class TestMemoize(unittest.TestCase):
+    """ Tests the memoized wrapper function"""
+    def test_memoize(self):
+
+        class TestClass:
+
+            def a_method(self):
+                return 42
+
+            @memoize
+            def a_property(self):
+                return self.a_method()
+        with patch.object(TestClass, 'a_method') as mocked:
+            test = TestClass()
+            test.a_property()
+            test.a_property()
+            mocked.assert_called_once()
